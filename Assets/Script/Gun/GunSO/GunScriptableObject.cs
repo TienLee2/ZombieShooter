@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 
 [CreateAssetMenu(fileName ="Gun", menuName ="Guns/Gun", order =0)]
@@ -16,11 +17,15 @@ public class GunScriptableObject : ScriptableObject
 
     public ShootingConfigurationScriptableObject ShootConfig;
     public TrailConfigScriptableObject TrailConfig;
+    public AmmoConfigScriptableObject AmmoConfig;
+
 
     private MonoBehaviour ActiveMonoBehaviour;
     private GameObject Model;
     private float LastShootTime;
     private ParticleSystem ShootSystem;
+
+    private ObjectPool<RigidbodyBullet> BulletPool;
     private ObjectPool<TrailRenderer> TrailPool;
 
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
@@ -28,6 +33,10 @@ public class GunScriptableObject : ScriptableObject
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
         LastShootTime = 0;
         TrailPool = new ObjectPool<TrailRenderer> (CreateTrail);
+        if(Type == GunType.Bazooka)
+        {
+            BulletPool = new ObjectPool<RigidbodyBullet>(CreateBullet);
+        }
 
         Model = Instantiate(ModelPrefab);
         Model.transform.SetParent(Parent, false);
@@ -39,6 +48,8 @@ public class GunScriptableObject : ScriptableObject
 
     public void Shoot()
     {
+        if (AmmoConfig.CurrentClipAmmo <= 0) return;
+
         if(Time.time > ShootConfig.FireRate + LastShootTime)
         {
             LastShootTime = Time.time;
@@ -52,30 +63,108 @@ public class GunScriptableObject : ScriptableObject
                 + new Vector3(ShootConfigX, ShootConfigY,ShootConfigZ);
             shootDirection.Normalize();
 
-            if(Physics.Raycast(
+            AmmoConfig.CurrentClipAmmo--;
+
+            if(Type == GunType.Bazooka)
+            {
+                DoProjectileShoot(shootDirection);
+            }
+            else
+            {
+                DoRayCastShoot(shootDirection);
+            }
+        }
+    }
+
+    public bool CanReload()
+    {
+        return AmmoConfig.CanReload();
+    }
+
+    public void EndReload()
+    {
+        AmmoConfig.Reload();
+    }
+
+    private void DoProjectileShoot(Vector3 shootDirection)
+    {
+        RigidbodyBullet bullet = BulletPool.Get();
+        bullet.gameObject.SetActive(true);
+        //bullet.OnCollsion += HandleBulletCollision;
+        bullet.transform.position = ShootSystem.transform.position;
+        bullet.Spawn(shootDirection * AmmoConfig.BulletSpawnForce);
+
+        MonoInstance.instance.StartCoroutine(ExplodeGrenade(bullet));
+
+        TrailRenderer trail = TrailPool.Get();
+        if (trail != null)
+        {
+            trail.transform.SetParent(bullet.transform, false);
+            trail.transform.localPosition = Vector3.zero;
+            trail.emitting = true;
+            trail.gameObject.SetActive(true);
+        }
+    }
+
+    private void DoRayCastShoot(Vector3 shootDirection)
+    {
+        if (Physics.Raycast(
                 ShootSystem.transform.position,
                 shootDirection,
                 out RaycastHit hit,
                 float.MaxValue,
                 ShootConfig.HitMask
                 ))
-            {
-                ActiveMonoBehaviour.StartCoroutine(
-                    PlayTrail( ShootSystem.transform.position, hit.point, hit )
-                );
+        {
+            ActiveMonoBehaviour.StartCoroutine(
+                PlayTrail(ShootSystem.transform.position, hit.point, hit)
+            );
 
-            }
-            else
+        }
+        else
+        {
+            ActiveMonoBehaviour.StartCoroutine(
+                PlayTrail(
+                    ShootSystem.transform.position,
+                    ShootSystem.transform.position + (shootDirection * TrailConfig.MissDistance),
+                    new RaycastHit()
+                )
+            );
+        }
+    }
+
+    //To make the bullet damage on touch
+    /*private void HandleBulletCollision(RigidbodyBullet Bullet, Collision Collision)
+    {
+        TrailRenderer trail = Bullet.GetComponentInChildren<TrailRenderer>();
+        if (trail != null)
+        {
+            trail.transform.SetParent(null, true);
+            ActiveMonoBehaviour.StartCoroutine(DelayedDisableTrail(trail));
+        }
+
+        Bullet.gameObject.SetActive(false);
+        BulletPool.Release(Bullet);
+
+        if (Collision != null)
+        {
+            ContactPoint contactPoint = Collision.GetContact(0);
+            float DistanceTraveled = Vector3.Distance(contactPoint.point, Bullet.SpawnLocation);
+            Collider HitCollider = contactPoint.otherCollider;
+
+            if (HitCollider.TryGetComponent(out IDamageable damageable))
             {
-                ActiveMonoBehaviour.StartCoroutine(
-                    PlayTrail(
-                        ShootSystem.transform.position,
-                        ShootSystem.transform.position + (shootDirection*TrailConfig.MissDistance),
-                        new RaycastHit()
-                    )
-                );
+                damageable.TakeDamage(ShootConfig.GetDamage(DistanceTraveled));
             }
         }
+    }*/
+
+    private IEnumerator ExplodeGrenade(RigidbodyBullet Bullet)
+    {
+        yield return new WaitForSeconds(3f);
+        Bullet.gameObject.SetActive(false);
+        BulletPool.Release(Bullet);
+        Debug.Log("Grenade go boom");
     }
 
     private IEnumerator PlayTrail(Vector3 StartPoint, Vector3 EndPoint, RaycastHit Hit)
@@ -119,6 +208,15 @@ public class GunScriptableObject : ScriptableObject
         TrailPool.Release(instance);
     }
 
+    private IEnumerator DelayedDisableTrail(TrailRenderer Trail)
+    {
+        yield return new WaitForSeconds(TrailConfig.Duration);
+        yield return null;
+        Trail.emitting = false;
+        Trail.gameObject.SetActive(false);
+        TrailPool.Release(Trail);
+    }
+
     private TrailRenderer CreateTrail()
     {
         GameObject instance = new GameObject("Bullet Trail");
@@ -132,6 +230,11 @@ public class GunScriptableObject : ScriptableObject
         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         
         return trail;
+    }
+
+    private RigidbodyBullet CreateBullet()
+    {
+        return Instantiate(AmmoConfig.BulletPrefab);
     }
 
 }

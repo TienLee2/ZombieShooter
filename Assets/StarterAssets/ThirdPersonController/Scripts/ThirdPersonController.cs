@@ -159,6 +159,11 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+
+            if (_input.aim)
+            {
+                _controller.transform.forward = _mainCamera.transform.forward;
+            }
         }
 
         private void LateUpdate()

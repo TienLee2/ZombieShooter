@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd2675392e580f4fb9bd0f4e2e6d99d, type: 3}
+  m_Name: MK
+  m_EditorClassIdentifier: 
+  Type: 2
+  Name: MK
+  ModelPrefab: {fileID: 3001668159633416444, guid: 7e7ec043d09c8d2488fafc02d2736f50,
+    type: 3}
+  SpawnPoint: {x: -0.093, y: 0.107, z: -0.098}
+  SpawnRotation: {x: 12.663, y: -165.656, z: -166.581}
+  ShootConfig: {fileID: 11400000, guid: 2cd7ea865e540a640b651f9fa62be6e7, type: 2}
+  TrailConfig: {fileID: 11400000, guid: 8a6108b939509eb4597c2fb0e97863e1, type: 2}
+  AmmoConfig: {fileID: 11400000, guid: 7e8dab2c9f7f71e42a282aed9cc8b7c7, type: 2}
