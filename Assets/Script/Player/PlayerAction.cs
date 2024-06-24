@@ -18,8 +18,7 @@ public class PlayerAction : MonoBehaviour
     private PlayerIK InverseKinematic;
 
     private bool IsReloading;
-
-
+    private bool isHolding = false;
 
     private void Start()
     {
@@ -31,11 +30,8 @@ public class PlayerAction : MonoBehaviour
 
     private void Update()
     {
-        if (_input.shoot && GunSelector.ActiveGun != null)
-        {
-            GunSelector.ActiveGun.Shoot();
-            Debug.Log("Shoot");
-        }
+        ShootWithRaycast();
+        ShootWithRigidbody();
 
         if (ShouldManualReload() || ShouldAutoReload())
         {
@@ -44,6 +40,33 @@ public class PlayerAction : MonoBehaviour
             InverseKinematic.HandIKAmount = 0.25f;
             InverseKinematic.ElbowIKAmount = 0.25f;
             _input.reload = false;
+        }
+    }
+
+    private void ShootWithRaycast()
+    {
+        if (Input.GetMouseButton(0) && GunSelector.ActiveGun != null && GunSelector.ActiveGun.Type != GunType.Bazooka)
+        {
+            GunSelector.ActiveGun.Shoot();
+            Debug.Log("Shoot");
+        }
+    }
+
+    private void ShootWithRigidbody()
+    {
+        if (Input.GetMouseButton(0) && GunSelector.ActiveGun.Type == GunType.Bazooka)
+        {
+            isHolding = true;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (isHolding)
+            {
+                GunSelector.ActiveGun.Shoot();
+                Debug.Log("Shoot");
+                isHolding = false;
+            }
         }
     }
 

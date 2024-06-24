@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,17 @@ public class PlayerGunSelector : MonoBehaviour
     [Header("Runtime Filled")]
     public GunScriptableObject ActiveGun;
 
+    private ThirdPersonController ThirdPersonController;
+
+    private float OriginalMoveSpeed;
+    private float OriginalRunSpeed;
 
     private void Start()
     {
+        ThirdPersonController = GetComponent<ThirdPersonController>();
+        OriginalMoveSpeed =ThirdPersonController.MoveSpeed;
+        OriginalRunSpeed = ThirdPersonController.SprintSpeed;
+
         GunScriptableObject gun = Guns.Find(gun => gun.Type == Gun);
         if (gun == null)
         {
@@ -39,5 +48,27 @@ public class PlayerGunSelector : MonoBehaviour
         InverseKinematics.LeftHandIKTarget = allChildren.FirstOrDefault(child => child.name == "LeftHand");
         InverseKinematics.RightHandIKTarget = allChildren.FirstOrDefault(child => child.name == "RightHand");
 
+    }
+
+    private void Update()
+    {
+        switch (ActiveGun.Type)
+        {
+            case GunType.HandGun:
+                ThirdPersonController.MoveSpeed = OriginalMoveSpeed;
+                break;
+            case GunType.AssaultRifle:
+                ThirdPersonController.MoveSpeed = OriginalMoveSpeed * 0.75f;
+                ThirdPersonController.SprintSpeed = OriginalRunSpeed * 0.75f;
+                break;
+            case GunType.Bazooka:
+                ThirdPersonController.MoveSpeed = OriginalMoveSpeed * 0.55f;
+                ThirdPersonController.SprintSpeed = OriginalRunSpeed * 0.55f;
+                break;
+            default:
+                ThirdPersonController.MoveSpeed = OriginalMoveSpeed;
+                break;
+
+        }
     }
 }

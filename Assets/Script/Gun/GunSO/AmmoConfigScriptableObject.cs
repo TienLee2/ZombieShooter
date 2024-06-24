@@ -7,8 +7,10 @@ public class AmmoConfigScriptableObject : ScriptableObject
 {
     public bool IsRigidbodyBullet;
     public RigidbodyBullet BulletPrefab;
+    public GameObject Explosion;
     public float BulletSpawnForce = 100;
     public float ExplosiveTime = 3;
+    public int ExplosiveRange = 5;
 
     public int MaxAmmo = 120;
     public int CurrentAmmo = 120;

@@ -19,7 +19,7 @@ public class GunScriptableObject : ScriptableObject
     public TrailConfigScriptableObject TrailConfig;
     public AmmoConfigScriptableObject AmmoConfig;
 
-
+    
     private MonoBehaviour ActiveMonoBehaviour;
     private GameObject Model;
     private float LastShootTime;
@@ -90,7 +90,6 @@ public class GunScriptableObject : ScriptableObject
     {
         RigidbodyBullet bullet = BulletPool.Get();
         bullet.gameObject.SetActive(true);
-        //bullet.OnCollsion += HandleBulletCollision;
         bullet.transform.position = ShootSystem.transform.position;
         bullet.Spawn(shootDirection * AmmoConfig.BulletSpawnForce);
 
@@ -133,38 +132,27 @@ public class GunScriptableObject : ScriptableObject
         }
     }
 
-    //To make the bullet damage on touch
-    /*private void HandleBulletCollision(RigidbodyBullet Bullet, Collision Collision)
-    {
-        TrailRenderer trail = Bullet.GetComponentInChildren<TrailRenderer>();
-        if (trail != null)
-        {
-            trail.transform.SetParent(null, true);
-            ActiveMonoBehaviour.StartCoroutine(DelayedDisableTrail(trail));
-        }
-
-        Bullet.gameObject.SetActive(false);
-        BulletPool.Release(Bullet);
-
-        if (Collision != null)
-        {
-            ContactPoint contactPoint = Collision.GetContact(0);
-            float DistanceTraveled = Vector3.Distance(contactPoint.point, Bullet.SpawnLocation);
-            Collider HitCollider = contactPoint.otherCollider;
-
-            if (HitCollider.TryGetComponent(out IDamageable damageable))
-            {
-                damageable.TakeDamage(ShootConfig.GetDamage(DistanceTraveled));
-            }
-        }
-    }*/
 
     private IEnumerator ExplodeGrenade(RigidbodyBullet Bullet)
     {
         yield return new WaitForSeconds(3f);
+        GameObject BulletExplosion = Instantiate(AmmoConfig.Explosion);
+        BulletExplosion.transform.parent = null;
+        BulletExplosion.transform.position = Bullet.transform.position;
+
+        Collider[] hitColliders = Physics.OverlapSphere(Bullet.transform.position, AmmoConfig.ExplosiveRange);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(ShootConfig.Damage);
+            }
+        }
+
         Bullet.gameObject.SetActive(false);
         BulletPool.Release(Bullet);
-        Debug.Log("Grenade go boom");
+        
     }
 
     private IEnumerator PlayTrail(Vector3 StartPoint, Vector3 EndPoint, RaycastHit Hit)
@@ -197,7 +185,7 @@ public class GunScriptableObject : ScriptableObject
         {
             if(Hit.collider.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(ShootConfig.GetDamage(distance));
+                damageable.TakeDamage(ShootConfig.Damage);
             }
         }
 

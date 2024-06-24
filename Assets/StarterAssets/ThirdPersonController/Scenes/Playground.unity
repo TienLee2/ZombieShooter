@@ -920,6 +920,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1762682258}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1025267204
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4786197248405894045, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_Name
+      value: Boom
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.4075365
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.600258
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299995413794595641, guid: 5741b24c1020ea94cb2a88c899c883ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5741b24c1020ea94cb2a88c899c883ee, type: 3}
 --- !u!1 &1028513131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1341,11 @@ PrefabInstance:
       objectReference: {fileID: 700051398}
     - target: {fileID: 2070925442191277752, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
+      propertyPath: IgnoreTag
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070925442191277752, guid: a1a802ecaf6775746bb2a929fb554ad8,
+        type: 3}
       propertyPath: ShoulderOffset.x
       value: 3.76
       objectReference: {fileID: 0}
@@ -1360,6 +1433,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArmature
       objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: SprintSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
       propertyPath: GroundLayers.m_Bits
@@ -1443,7 +1526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6523957dae8e0040aab0c80d117bc0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutorReload: 1
+  AutorReload: 0
   PlayerAnimator: {fileID: 0}
   InverseKinematic: {fileID: 0}
 --- !u!114 &1762682268
@@ -1458,7 +1541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf32324ab32664f4586d1b86dfb70822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gun: 2
+  Gun: 0
   GunParent: {fileID: 1831179005}
   Guns:
   - {fileID: 11400000, guid: 367363ddbd0888b44b180b8c71e65cf2, type: 2}
@@ -1466,6 +1549,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6452c13a3885d954c84f6e0ce456dd3c, type: 2}
   InverseKinematics: {fileID: 1762682266}
   ActiveGun: {fileID: 0}
+--- !u!4 &1762682269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,
+    type: 3}
+  m_PrefabInstance: {fileID: 1762682258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1764214107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1779,7 @@ GameObject:
   - component: {fileID: 2070181666}
   - component: {fileID: 2070181665}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: MonoInstance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2381,7 +2470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8653633435659805173}
   - component: {fileID: 1811897441965387099}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_lod1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2729,9 +2818,9 @@ GameObject:
   - component: {fileID: 4832235271165045441}
   - component: {fileID: 4832235271165045440}
   - component: {fileID: 4832235271165045439}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2949,7 +3038,7 @@ Transform:
   m_GameObject: {fileID: 2826550861914843704}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.1551635, y: -0.00000023841858, z: 5.8396673}
+  m_LocalPosition: {x: 1.4, y: -0.00000023841858, z: 11.167}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3051,9 +3140,9 @@ GameObject:
   - component: {fileID: 4695102051518461319}
   - component: {fileID: 4695102051518461317}
   - component: {fileID: 4695102051518461318}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3170,8 +3259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a795c0ee69bd6448c7a31586c73dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxHealth: 100
   _Health: 100
+  EnemyStatScriptableObject: {fileID: 11400000, guid: 255ee7577aee23f4386fb09203bf05fd,
+    type: 2}
 --- !u!114 &4695102051518461318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3381,7 +3471,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -3406,8 +3496,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: {fileID: 4695102051518461317}
-  Movement: {fileID: 0}
   PainResponse: {fileID: 0}
+  StatScript: {fileID: 11400000, guid: 255ee7577aee23f4386fb09203bf05fd, type: 2}
+  player: {fileID: 1762682269}
 --- !u!114 &4832235271165045440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3434,7 +3525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544d067d0f7680d4c8fd902caa463ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StillDelay: 1
+  StillDelay: 100
 --- !u!1 &4860433163615928106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3445,7 +3536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7575783249893751349}
   - component: {fileID: 2767183965039254528}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_lod3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3525,7 +3616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3882452126383055584}
   - component: {fileID: 390223931406090506}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_lod0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3770,7 +3861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3258547790415735700}
   - component: {fileID: 4746609693324085676}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_lod2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4628,7 +4719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1408596961119337530}
   - component: {fileID: 7250669681752309406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BH_2_lod4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4809,3 +4900,4 @@ SceneRoots:
   - {fileID: 3844322467718407061}
   - {fileID: 259995739}
   - {fileID: 2070181666}
+  - {fileID: 1025267204}

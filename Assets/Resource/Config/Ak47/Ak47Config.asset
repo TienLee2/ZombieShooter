@@ -14,23 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitMask:
     serializedVersion: 2
-    m_Bits: 55
-  DamageCurve:
-    m_Mode: 0
-    m_CurveMultiplier: 0
-    m_CurveMin:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_CurveMax:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ConstantMin: 0
-    m_ConstantMax: 15
+    m_Bits: 183
+  Damage: 20
   Spread: {x: 0.03, y: 0.03, z: 0.03}
   FireRate: 0.1

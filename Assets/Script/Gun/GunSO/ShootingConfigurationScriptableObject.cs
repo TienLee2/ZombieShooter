@@ -6,17 +6,8 @@ using static UnityEngine.ParticleSystem;
 public class ShootingConfigurationScriptableObject : ScriptableObject
 {
     public LayerMask HitMask;
-    public MinMaxCurve DamageCurve;
+    public int Damage;
     public Vector3 Spread = new Vector3(0.1f, 0.1f, 0.1f);
     public float FireRate = 0.25f;
 
-    private void Reset()
-    {
-        DamageCurve.mode = ParticleSystemCurveMode.Curve;        
-    }
-
-    public int GetDamage(float Distance = 0)
-    {
-        return Mathf.CeilToInt(DamageCurve.Evaluate(Distance, Random.value));
-    }
 }

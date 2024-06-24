@@ -15,9 +15,12 @@ MonoBehaviour:
   IsRigidbodyBullet: 1
   BulletPrefab: {fileID: 8634781276408990966, guid: 6fd85e27af054974aa374b0ada6e284e,
     type: 3}
+  Explosion: {fileID: 4786197248405894045, guid: 5741b24c1020ea94cb2a88c899c883ee,
+    type: 3}
   BulletSpawnForce: 1000
   ExplosiveTime: 3
+  ExplosiveRange: 5
   MaxAmmo: 100
-  CurrentAmmo: 90
+  CurrentAmmo: 4
   ClipSize: 5
-  CurrentClipAmmo: 1
+  CurrentClipAmmo: 4

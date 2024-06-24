@@ -6,14 +6,14 @@ using UnityEngine;
 public class RigidbodyBullet : MonoBehaviour
 {
     private Rigidbody Rigidbody;
+
+
     [field: SerializeField]
     public Vector3 SpawnLocation
     {
         get; private set;
     }
 
-    public delegate void CollisionEvent(RigidbodyBullet Bullet, Collision Collision);
-    public event CollisionEvent OnCollsion;
 
     private void Awake()
     {
@@ -31,19 +31,14 @@ public class RigidbodyBullet : MonoBehaviour
     private IEnumerator DelayedDisable(float Time)
     {
         yield return new WaitForSeconds(Time);
-        OnCollisionEnter(null);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        OnCollsion?.Invoke(this, collision);
-    }
+
 
     private void OnDisable()
     {
         StopAllCoroutines();
         Rigidbody.velocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
-        OnCollsion = null;
     }
 }
