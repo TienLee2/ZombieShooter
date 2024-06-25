@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4344fcd7635a1c24cb6a3a28f0fad36a, type: 3}
   m_Name: DEAmmoConfig
   m_EditorClassIdentifier: 
-  MaxAmmo: 60
-  CurrentAmmo: 60
-  ClipSize: 6
-  CurrentClipAmmo: 6
+  shootType: 0
+  BulletPrefab: {fileID: 0}
+  Explosion: {fileID: 0}
+  BulletSpawnForce: 100
+  ExplosiveTime: 3
+  ExplosiveRange: 5
+  MaxAmmo: 10000000
+  CurrentAmmo: 10000000
+  ClipSize: 10000000
+  CurrentClipAmmo: 9999836

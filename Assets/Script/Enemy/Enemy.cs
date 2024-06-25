@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public LayerMask hitLayers;
     public EnemyHealth Health;
     public EnemyPainResponse PainResponse;
     public EnemyStatScriptableObject StatScript;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     public Transform player;
     private NavMeshAgent agent;
     private Animator animator;
+    public GameObject DamageParent;
 
     private float chaseRange = 10f;
     private float attackRange = 2f;
@@ -37,13 +39,15 @@ public class Enemy : MonoBehaviour
         Health.OnDeath += Die;
     }
 
-    public void Update()
+
+    private void FixedUpdate()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-
         switch (currentState)
         {
             case State.Idle:
+                animator.SetFloat("speed", 1f);
+
                 if (distanceToPlayer <= chaseRange)
                 {
                     currentState = State.Chasing;
@@ -63,6 +67,7 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     agent.SetDestination(player.position);
+                    animator.SetFloat("speed", 1f);
                 }
                 break;
 
@@ -81,8 +86,6 @@ public class Enemy : MonoBehaviour
             case State.Die:
                 break;
         }
-
-        UpdateAnimator();
     }
 
     void AttackPlayer()
@@ -91,21 +94,28 @@ public class Enemy : MonoBehaviour
         if (attackTimer <= 0f)
         {
             animator.SetTrigger("attack");
-            Debug.Log("Zombie attacks player!");
             attackTimer = attackCooldown;
         }
     }
 
-    void UpdateAnimator()
+    public void AttackPlayerEvent()
     {
-        animator.SetBool("isChasing", currentState == State.Chasing);
-        animator.SetBool("isAttacking", currentState == State.Attacking);
+        Collider[] hitColliders = Physics.OverlapSphere(DamageParent.transform.position, 2f, hitLayers);
+
+        foreach (var hitCollider in hitColliders)
+        {
+
+            if (hitCollider.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(StatScript.Damage);
+            }
+        }
     }
 
     private void Die (Vector3 Position)
     {
         currentState = State.Die;
-        Invoke("DespawnObject", 3f);
+        Invoke("DespawnObject", 6f);
         agent.enabled = false;
         PainResponse.HandleDeath();
     }

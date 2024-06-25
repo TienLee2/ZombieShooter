@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4344fcd7635a1c24cb6a3a28f0fad36a, type: 3}
   m_Name: Ak47AmmoConfig
   m_EditorClassIdentifier: 
-  IsRigidbodyBullet: 0
+  shootType: 0
   BulletPrefab: {fileID: 0}
   Explosion: {fileID: 0}
   BulletSpawnForce: 100
   ExplosiveTime: 3
   ExplosiveRange: 5
   MaxAmmo: 120
-  CurrentAmmo: 120
+  CurrentAmmo: 35
   ClipSize: 30
   CurrentClipAmmo: 30

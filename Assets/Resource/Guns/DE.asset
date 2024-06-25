@@ -16,8 +16,8 @@ MonoBehaviour:
   Name: DE
   ModelPrefab: {fileID: 2625271390708717440, guid: ff29e321c1f0b4945b145de53a1c9a09,
     type: 3}
-  SpawnPoint: {x: -0.101, y: -0.024, z: -0.478}
-  SpawnRotation: {x: 174.951, y: 26.687, z: 10.056}
+  SpawnPoint: {x: -0.014, y: 0.349, z: 0.306}
+  SpawnRotation: {x: -25.735, y: 12.435, z: -23.377}
   ShootConfig: {fileID: 11400000, guid: 9fe038a95c1978c4facbdbef2567e381, type: 2}
   TrailConfig: {fileID: 11400000, guid: 19fcd3f746f01024583cd92fc7ef5ca4, type: 2}
   AmmoConfig: {fileID: 11400000, guid: 1058c8856d274fc42b60764af8dd3160, type: 2}

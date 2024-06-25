@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4a3fcc7a3bca04883f95cabfc8ebc7, type: 3}
   m_Name: MeleeEnemyConfig
   m_EditorClassIdentifier: 
+  enemyType: 0
   MaxHealth: 100
   Damage: 10
   MovementSpeed: 1
   ChaseRange: 1000
-  AttackRange: 1.2
+  AttackRange: 1.4
   AttackCoolDown: 2
+  FleeRange: 0

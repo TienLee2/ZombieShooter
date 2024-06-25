@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class PlayerAction : MonoBehaviour
 {
-    private PlayerGunSelector GunSelector;
+    private GunSelector GunSelector;
     private StarterAssetsInputs _input;
 
     [SerializeField]
@@ -22,7 +22,7 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        GunSelector = GetComponent<PlayerGunSelector>();
+        GunSelector = GetComponent<GunSelector>();
         _input = GetComponent<StarterAssetsInputs>();
         PlayerAnimator = GetComponent<Animator>();
         InverseKinematic = GetComponent<PlayerIK>();

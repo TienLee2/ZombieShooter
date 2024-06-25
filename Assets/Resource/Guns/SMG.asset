@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd2675392e580f4fb9bd0f4e2e6d99d, type: 3}
+  m_Name: SMG
+  m_EditorClassIdentifier: 
+  Type: 3
+  Name: SMG
+  ModelPrefab: {fileID: 7339957472725446113, guid: bf61be3281736164ba257c5ec44620f8,
+    type: 3}
+  SpawnPoint: {x: -0.055, y: 0.318, z: 0.345}
+  SpawnRotation: {x: -156.543, y: -144.192, z: 109.538}
+  ShootConfig: {fileID: 11400000, guid: 60f2905502550cc49b3085abfd51eea1, type: 2}
+  TrailConfig: {fileID: 11400000, guid: 311c91c2b78abc840a37904b2c451bf3, type: 2}
+  AmmoConfig: {fileID: 11400000, guid: 48beb96a624f42244891a494899a45df, type: 2}
