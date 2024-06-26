@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class BossEnemySkillAction : Action
 {
+    //Animator to activate skill
     private Animator animator;
+    //if the skill is use or not
     private bool SkillUse;
 
     public override void OnAwake()
@@ -16,7 +18,7 @@ public class BossEnemySkillAction : Action
 
     public override TaskStatus OnUpdate()
     {
-
+        //if the skill animation is not 90%, then this task keep running
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9)
         {
             SkillUse = false;
@@ -29,6 +31,7 @@ public class BossEnemySkillAction : Action
         return TaskStatus.Running;
     }
 
+    //call the skill
     public void SkillAction()
     {
         animator.SetTrigger("skill");

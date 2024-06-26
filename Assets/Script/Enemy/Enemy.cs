@@ -39,15 +39,15 @@ public class Enemy : MonoBehaviour
         Health.OnDeath += Die;
     }
 
-
-    private void FixedUpdate()
+    //I didn't use normal method for melee zombie, check the document for more information 
+    public void UpdateMe()
     {
+        if (player == null) return;
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         switch (currentState)
         {
             case State.Idle:
-                animator.SetFloat("speed", 1f);
-
+                animator.SetFloat("speed", 0f);
                 if (distanceToPlayer <= chaseRange)
                 {
                     currentState = State.Chasing;
@@ -100,11 +100,13 @@ public class Enemy : MonoBehaviour
 
     public void AttackPlayerEvent()
     {
+        //Generate a sphere around the hand, each suitable gameobject goes into a array
         Collider[] hitColliders = Physics.OverlapSphere(DamageParent.transform.position, 2f, hitLayers);
 
+        
         foreach (var hitCollider in hitColliders)
         {
-
+            //Get the health component and subtract it using that stat scriptable object
             if (hitCollider.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(StatScript.Damage);

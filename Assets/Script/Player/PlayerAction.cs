@@ -7,7 +7,9 @@ using UnityEngine.InputSystem;
 [DisallowMultipleComponent]
 public class PlayerAction : MonoBehaviour
 {
+    //The current gun player use
     private GunSelector GunSelector;
+    //Player input, using the new input system
     private StarterAssetsInputs _input;
 
     [SerializeField]
@@ -22,6 +24,7 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
+        //Get some reference
         GunSelector = GetComponent<GunSelector>();
         _input = GetComponent<StarterAssetsInputs>();
         PlayerAnimator = GetComponent<Animator>();
@@ -33,6 +36,7 @@ public class PlayerAction : MonoBehaviour
         ShootWithRaycast();
         ShootWithRigidbody();
 
+        //Check if player press reload button or guns out of ammo
         if (ShouldManualReload() || ShouldAutoReload())
         {
             IsReloading = true;
@@ -43,6 +47,7 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    //Shoot with raycast, press or hold the left mouse button to shoot
     private void ShootWithRaycast()
     {
         if (Input.GetMouseButton(0) && GunSelector.ActiveGun != null && GunSelector.ActiveGun.Type != GunType.Bazooka)
@@ -52,6 +57,7 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    //Shoot with rigidbody gun aka bazooka, must hold and release to shoot
     private void ShootWithRigidbody()
     {
         if (Input.GetMouseButton(0) && GunSelector.ActiveGun.Type == GunType.Bazooka)

@@ -23,12 +23,13 @@ public class EnemyPainResponse : MonoBehaviour
     {
         if (Health.CurrentHealth != 0)
         {
-            Animator.ResetTrigger("Hit");
+            Animator.ResetTrigger("hit");
             Animator.SetLayerWeight(1, (float)Damage / MaxDamagePainThreshold);
-            Animator.SetTrigger("Hit");
+            Animator.SetTrigger("hit");
         }
     }
 
+    //Death method
     public void HandleDeath()
     {
         Animator.SetTrigger("death");

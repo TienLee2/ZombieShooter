@@ -19,6 +19,6 @@ MonoBehaviour:
   ExplosiveTime: 3
   ExplosiveRange: 5
   MaxAmmo: 120
-  CurrentAmmo: 35
+  CurrentAmmo: 90
   ClipSize: 30
   CurrentClipAmmo: 30

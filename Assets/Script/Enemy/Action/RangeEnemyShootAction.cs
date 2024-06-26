@@ -9,11 +9,13 @@ using UnityEngine.AI;
 
 public class RangeEnemyShootAction : Action
 {
+    //The gun system
     private GunSelector GunSelector;
     private GameObject Player;
     private float fleeRange;
 
     public EnemyStatScriptableObject enemyStat;
+    
     public override void OnAwake()
     {
         GunSelector = GetComponent<GunSelector>();
@@ -24,14 +26,16 @@ public class RangeEnemyShootAction : Action
 
     public override TaskStatus OnUpdate()
     {
+        //calculate the player distance
         float distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
 
-
+        //if out of ammo or player get too close then this action is complete
         if (distanceToPlayer <= fleeRange||
             GunSelector.ActiveGun.AmmoConfig.CurrentClipAmmo == 0)
         {
             return TaskStatus.Success;
         }
+        //Face the player and keep shooting
         FaceTarget(Player.transform.position);
         GunSelector.ActiveGun.Shoot();
         return TaskStatus.Running;

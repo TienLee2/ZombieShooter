@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossEnemyStatConfig
   m_EditorClassIdentifier: 
   enemyType: 2
-  MaxHealth: 300
+  MaxHealth: 500
   Damage: 10
   MovementSpeed: 1
   ChaseRange: 10000

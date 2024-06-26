@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RigidbodyBullet : MonoBehaviour
 {
+    //Get the rigidbody of bullet
     private Rigidbody Rigidbody;
 
 
@@ -20,6 +21,7 @@ public class RigidbodyBullet : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
     }
 
+    //Generate the bullet to shoot
     public void Spawn(Vector3 SpawnForce)
     {
         SpawnLocation = transform.position;

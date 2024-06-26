@@ -1,6 +1,7 @@
 using BehaviorDesigner.Runtime.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,8 +26,10 @@ public class RunFromPlayerAction : Action
 
     public override TaskStatus OnUpdate()
     {
+        //calculate the distance between player and zombie
         float distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
 
+        //Task return success if player goes out of flee range
         if (distanceToPlayer >= fleeRange*2)
         {
             return TaskStatus.Success;

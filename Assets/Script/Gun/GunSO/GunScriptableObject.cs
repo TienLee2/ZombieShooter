@@ -9,25 +9,36 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName ="Gun", menuName ="Guns/Gun", order =0)]
 public class GunScriptableObject : ScriptableObject
 {
+    //The Type of chosen gun
     public GunType Type;
+    //Gun's name
     public string Name;
+    //The gun model 
     public GameObject ModelPrefab;
+    //The position of the spawn gun
     public Vector3 SpawnPoint;
+    //The Rotation of the spawn gun
     public Vector3 SpawnRotation;
 
+    //some reference to get stat from
     public ShootingConfigurationScriptableObject ShootConfig;
     public TrailConfigScriptableObject TrailConfig;
     public AmmoConfigScriptableObject AmmoConfig;
 
-    
+    //Because this is Scriptable object, we need a monobehavior to count time
     private MonoBehaviour ActiveMonoBehaviour;
+    //The model that take from the gun prefab
     private GameObject Model;
+    //Check the last shoot time
     private float LastShootTime;
+    //Gun shoot effect
     private ParticleSystem ShootSystem;
 
+    //Add object pooling for performance
     private ObjectPool<RigidbodyBullet> BulletPool;
     private ObjectPool<TrailRenderer> TrailPool;
 
+    //Spawn the gun to player hand, also serve as start
     public void Spawn(Transform Parent, MonoBehaviour ActiveMonoBehaviour)
     {
         this.ActiveMonoBehaviour = ActiveMonoBehaviour;
@@ -46,10 +57,13 @@ public class GunScriptableObject : ScriptableObject
         ShootSystem = Model.GetComponentInChildren<ParticleSystem>();
     }
 
+    //Shoot Function
     public void Shoot()
     {
+        //If no ammo then return
         if (AmmoConfig.CurrentClipAmmo <= 0) return;
 
+        //Handle the fire rate
         if(Time.time > ShootConfig.FireRate + LastShootTime)
         {
             LastShootTime = Time.time;
@@ -86,6 +100,7 @@ public class GunScriptableObject : ScriptableObject
         AmmoConfig.Reload();
     }
 
+    //Shoot with bullet gun
     private void DoProjectileShoot(Vector3 shootDirection)
     {
         RigidbodyBullet bullet = BulletPool.Get();
@@ -105,6 +120,7 @@ public class GunScriptableObject : ScriptableObject
         }
     }
 
+    //Shoot with raycast gun
     private void DoRayCastShoot(Vector3 shootDirection)
     {
         if (Physics.Raycast(
@@ -132,24 +148,29 @@ public class GunScriptableObject : ScriptableObject
         }
     }
 
-
+    //The bullet will explode after few second
     private IEnumerator ExplodeGrenade(RigidbodyBullet Bullet)
     {
         yield return new WaitForSeconds(3f);
+
+        //Generate a explosion effect, then detach it's parent
         GameObject BulletExplosion = Instantiate(AmmoConfig.Explosion);
         BulletExplosion.transform.parent = null;
         BulletExplosion.transform.position = Bullet.transform.position;
 
-        Collider[] hitColliders = Physics.OverlapSphere(Bullet.transform.position, AmmoConfig.ExplosiveRange);
+        //Apply a sphere to collect nearby enemy collider
+        Collider[] hitColliders = Physics.OverlapSphere(Bullet.transform.position, AmmoConfig.ExplosiveRange,ShootConfig.HitMask);
 
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.TryGetComponent(out IDamageable damageable))
             {
+                //Do damage to the enemy surround area
                 damageable.TakeDamage(ShootConfig.Damage);
             }
         }
 
+        //Afer explode, deactive bullet
         Bullet.gameObject.SetActive(false);
         BulletPool.Release(Bullet);
         
@@ -157,6 +178,7 @@ public class GunScriptableObject : ScriptableObject
 
     private IEnumerator PlayTrail(Vector3 StartPoint, Vector3 EndPoint, RaycastHit Hit)
     {
+        //Get trail from pool
         TrailRenderer instance = TrailPool.Get();
         instance.gameObject.SetActive( true );
         instance.transform.position = StartPoint;
@@ -164,8 +186,10 @@ public class GunScriptableObject : ScriptableObject
 
         instance.emitting = true;
 
+        //Get travel distance of bullet to limit it's range
         float distance = Vector3.Distance(StartPoint, EndPoint);
         float remainingDistance = distance;
+        //When slowly get to the end, reduce the intense of trail
         while( remainingDistance > 0 )
         {
             instance.transform.position = Vector3.Lerp(
@@ -181,6 +205,7 @@ public class GunScriptableObject : ScriptableObject
 
         instance.transform.position = EndPoint;
 
+        //if the bullet hit something and it has health, subtract health 
         if(Hit.collider!=null)
         {
             if(Hit.collider.TryGetComponent(out IDamageable damageable))

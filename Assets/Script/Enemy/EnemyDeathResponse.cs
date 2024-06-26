@@ -6,8 +6,11 @@ using UnityEngine.AI;
 
 public class EnemyDeathResponse : MonoBehaviour
 {
+    //Get the health component
     public EnemyHealth Health;
+    //Get the pain response component
     private EnemyPainResponse PainResponse;
+    //Nav mesh agent
     private NavMeshAgent agent;
     private BehaviorTree tree;
 
